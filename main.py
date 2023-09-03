@@ -2,7 +2,7 @@ import requests, json, streamlit as st, io
 from PIL import Image, ImageDraw, ImageFont
 import os
 
-api_key = os.environ["LASTFM_API_KEY"]
+api_key = st.secrets["LASTFM_API_KEY"]
 
 st.set_page_config(layout="wide")
 
