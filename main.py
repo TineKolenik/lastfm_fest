@@ -1,6 +1,6 @@
 import requests, json, streamlit as st, io
 from PIL import Image, ImageDraw, ImageFont
-import os
+
 
 api_key = st.secrets["LASTFM_API_KEY"]
 
@@ -142,8 +142,13 @@ elif st.session_state.page == 2:
         time_frame = st.selectbox('Timeframe to take top artists from:', ['6 months', '1 year', 'all time'], key="time_frame")
         background_style = st.selectbox('Choose the style of the background image:', ['Summer', 'Winter', 'Space'], key="background_style")
         festival_name = st.text_input('Name of your festival:', st.session_state.username + 'Fest')
+        st.session_state.festival_name = festival_name  # Update session state
         top_artists = fetch_top_artists(api_key, st.session_state.username, st.session_state.get("time_frame", "1 week"), 27)
-        img = generate_poster(top_artists, st.session_state.get("background_style", "Summer"), st.session_state.get("festival_name", st.session_state.username + 'Fest'))
+        img = generate_poster(
+            top_artists,
+            st.session_state.get("background_style", "Summer"),
+            st.session_state.festival_name  # Use updated festival_name
+        )
         buffered = io.BytesIO()
         img.save(buffered, format="PNG")
         st.download_button("Download Poster", data=buffered.getvalue(), file_name=f"{festival_name}.png", mime="image/png")
@@ -157,5 +162,6 @@ elif st.session_state.page == 2:
         buffered = io.BytesIO()
         img.save(buffered, format="PNG")
         st.image(buffered.getvalue(), caption='Your Festival Poster', use_column_width=True)
+
 
 
