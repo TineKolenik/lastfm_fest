@@ -4,7 +4,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 api_key = st.secrets["LASTFM_API_KEY"]
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    page_title="last.fm fest!",
+    page_icon="lastfmfest_fav.png",
+    layout="wide"
+)
 
 
 def fetch_top_artists(api_key, username, period, limit):
